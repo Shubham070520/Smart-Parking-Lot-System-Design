@@ -2,10 +2,6 @@ package com.parking.models;
 
 import com.parking.enums.VehicleType;
 
-/**
- * Immutable value object representing a vehicle entering the lot.
- * Validates the license plate on construction.
- */
 public final class Vehicle {
 
     private final String licensePlate;

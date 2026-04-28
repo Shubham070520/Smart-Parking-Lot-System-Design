@@ -6,20 +6,8 @@ import com.parking.interfaces.IParkingTicketRepository;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * In-memory implementation of IParkingTicketRepository.
- *
- * Uses ConcurrentHashMap — plate → ticket — as the backing store.
- * All operations are O(1) average.
- *
- * Thread-safety:
- *   ConcurrentHashMap provides safe concurrent reads + writes.
- *   Atomic check-then-act (e.g. "is already parked?") is handled
- *   at the service layer, not here, to keep repos simple.
- */
 public class InMemoryParkingTicketRepository implements IParkingTicketRepository {
 
-    // licensePlate (uppercase) → active ParkingTicket
     private final ConcurrentHashMap<String, ParkingTicket> store = new ConcurrentHashMap<>();
 
     @Override

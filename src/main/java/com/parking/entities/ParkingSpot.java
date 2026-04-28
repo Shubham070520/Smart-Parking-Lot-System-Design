@@ -5,20 +5,6 @@ import com.parking.enums.SpotType;
 
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * Core domain entity representing a physical parking spot.
- *
- * Concurrency: each spot owns a ReentrantLock so that concurrent
- * vehicle entries only contend over the same spot — not the entire
- * floor or lot. tryOccupy() is a check-and-set operation that is
- * fully atomic within the lock boundary.
- *
- * Maps to DB table: parking_spots
- *   spot_id      VARCHAR PK
- *   floor_number INT
- *   spot_type    ENUM
- *   status       ENUM  DEFAULT 'AVAILABLE'
- */
 public class ParkingSpot {
 
     private final String spotId;
@@ -35,11 +21,6 @@ public class ParkingSpot {
         this.status      = SpotStatus.AVAILABLE;
     }
 
-    /**
-     * Atomically claims this spot.
-     * @return true  if successfully occupied by the calling thread
-     *         false if already taken by another thread
-     */
     public boolean tryOccupy() {
         lock.lock();
         try {
@@ -53,7 +34,6 @@ public class ParkingSpot {
         }
     }
 
-    /** Releases the spot — called on vehicle check-out. */
     public void release() {
         lock.lock();
         try {

@@ -3,13 +3,6 @@ package com.parking.display;
 import com.parking.models.AvailabilityModel;
 import com.parking.service.ParkingService;
 
-/**
- * Observer-style display board that shows real-time spot availability.
- *
- * In a real deployment this would push updates to a WebSocket endpoint
- * or a message broker (e.g., Kafka topic) consumed by LED boards at
- * each floor entrance.
- */
 public class DisplayBoard {
 
     private final ParkingService parkingService;
@@ -18,7 +11,6 @@ public class DisplayBoard {
         this.parkingService = parkingService;
     }
 
-    /** Print current availability to stdout (simulates a physical display). */
     public void display() {
         AvailabilityModel avail = parkingService.getAvailability();
 

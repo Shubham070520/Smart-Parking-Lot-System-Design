@@ -8,13 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Domain entity representing a single floor in the parking lot.
- * Owns a list of ParkingSpot objects and exposes spot-finding
- * logic scoped to this floor.
- *
- * Maps to DB view/query: SELECT * FROM parking_spots WHERE floor_number = ?
- */
 public class ParkingFloor {
 
     private final int              floorNumber;
@@ -36,10 +29,6 @@ public class ParkingFloor {
             spots.add(new ParkingSpot(String.format("F%d-LG%03d", floorNumber, idx++), floorNumber, SpotType.LARGE));
     }
 
-    /**
-     * Scans this floor for an available spot of the required type
-     * and atomically claims it via ParkingSpot#tryOccupy().
-     */
     public Optional<ParkingSpot> findAndOccupySpot(SpotType type) {
         return spots.stream()
                 .filter(s -> s.getType() == type && s.getStatus() == SpotStatus.AVAILABLE)
@@ -47,7 +36,6 @@ public class ParkingFloor {
                 .findFirst();
     }
 
-    /** Count of AVAILABLE spots of the given type on this floor. */
     public long countAvailable(SpotType type) {
         return spots.stream()
                 .filter(s -> s.getType() == type && s.getStatus() == SpotStatus.AVAILABLE)
